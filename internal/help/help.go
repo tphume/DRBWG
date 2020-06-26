@@ -8,6 +8,17 @@ const (
 	lsc    = "lsc"
 	update = "update"
 	del    = "del"
+	all    = ""
+)
+
+// List of brief description for sub-commands
+const (
+	atBrief     = "set a reminder at specified time"
+	inBrief     = "set a reminder for the current time + some given duration"
+	lsgBrief    = "list all the pending reminders for the current guild"
+	lscBrief    = "list all the pending reminders for the current channel"
+	updateBrief = "update a pending reminder with a new specified time"
+	delBrief    = "del a pending reminder"
 )
 
 // List of description for specific sub-commands
@@ -28,12 +39,13 @@ const (
 
 // List of sub-commands and its description
 var CMD = map[string][]string{
-	at:     {"set a reminder at specified time", atDesc},
-	in:     {"set a reminder for the current time + some given duration", inDesc},
-	lsg:    {"list all the pending reminders for the current guild", lsgDesc},
-	lsc:    {"list all the pending reminders for the current channel", lscDesc},
-	update: {"update a pending reminder with a new specified time", updateDesc},
-	del:    {"del a pending reminder", delDesc},
+	at:     {atBrief, atDesc},
+	in:     {inBrief, inDesc},
+	lsg:    {lsgBrief, lsgDesc},
+	lsc:    {lscBrief, lscDesc},
+	update: {updateBrief, updateDesc},
+	del:    {delBrief, delDesc},
+	all:    {atBrief, inBrief, lsgBrief, lscBrief, updateBrief, delBrief},
 }
 
 // Expects an empty string or a sub-command
