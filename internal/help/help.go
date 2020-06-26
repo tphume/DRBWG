@@ -1,5 +1,10 @@
 package help
 
+// Expects an empty string or a sub-command
+func Handle(cmd string) ([]string, error) {
+	panic("implement me")
+}
+
 // List of sub-commands
 const (
 	at     = "at"
@@ -46,9 +51,4 @@ var CMD = map[string][]string{
 	update: {updateBrief, updateDesc},
 	del:    {delBrief, delDesc},
 	all:    {atBrief, inBrief, lsgBrief, lscBrief, updateBrief, delBrief},
-}
-
-// Expects an empty string or a sub-command
-func Handle(cmd string) ([]string, error) {
-	panic("implement me")
 }

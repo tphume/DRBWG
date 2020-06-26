@@ -18,6 +18,7 @@ func TestHandle(t *testing.T) {
 		{arg: update, expect: CMD[update]},
 		{arg: del, expect: CMD[del]},
 		{arg: all, expect: CMD[all]},
+		{arg: "subcommandThatDoesNotExist", expect: CMD[all]},
 	}
 
 	for _, c := range cases {
