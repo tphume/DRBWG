@@ -49,6 +49,6 @@ var CMD = map[string][]string{
 }
 
 // Expects an empty string or a sub-command
-func Handle(cmd string) (string, error) {
+func Handle(cmd string) ([]string, error) {
 	panic("implement me")
 }
