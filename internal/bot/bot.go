@@ -17,13 +17,13 @@ const (
 type Handle func(cmd []string) ([]string, error)
 
 type Bot struct {
-	MsgCreateRoutes map[string]Handle
+	msgCreateRoutes map[string]Handle
 }
 
-func (b *Bot) AddMsgCreateRoutes(event string, route string, h Handle) error {
+func (b *Bot) addMsgCreateRoutes(event string, route string, h Handle) error {
 	switch event {
 	case MSG_CREATE:
-		b.MsgCreateRoutes[route] = h
+		b.msgCreateRoutes[route] = h
 	default:
 		return errors.New("event type does not exist")
 	}
@@ -31,7 +31,7 @@ func (b *Bot) AddMsgCreateRoutes(event string, route string, h Handle) error {
 	return nil
 }
 
-func (b *Bot) HandleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (b *Bot) handleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// Ignore message created by itself
 	if m.Author.ID == s.State.User.ID {
 		return
@@ -45,7 +45,7 @@ func (b *Bot) HandleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) 
 	}
 
 	// Route and handle
-	route, ok := b.MsgCreateRoutes[msg[1]]
+	route, ok := b.msgCreateRoutes[msg[1]]
 	if !ok {
 		return
 	}
