@@ -2,7 +2,12 @@ package help
 
 // Expects an empty string or a sub-command
 func Handle(cmd string) ([]string, error) {
-	panic("implement me")
+	res, ok := CMD[cmd]
+	if !ok {
+		return CMD[all], nil
+	}
+
+	return res, nil
 }
 
 // List of sub-commands
@@ -18,12 +23,12 @@ const (
 
 // List of brief description for sub-commands
 const (
-	atBrief     = "set a reminder at specified time"
-	inBrief     = "set a reminder for the current time + some given duration"
-	lsgBrief    = "list all the pending reminders for the current guild"
-	lscBrief    = "list all the pending reminders for the current channel"
-	updateBrief = "update a pending reminder with a new specified time"
-	delBrief    = "del a pending reminder"
+	atBrief     = "at - set a reminder at specified time"
+	inBrief     = "in - set a reminder for the current time + some given duration"
+	lsgBrief    = "lsg - list all the pending reminders for the current guild"
+	lscBrief    = "lsc - list all the pending reminders for the current channel"
+	updateBrief = "updated - update a pending reminder with a new specified time"
+	delBrief    = "del - delete a pending reminder"
 )
 
 // List of description for specific sub-commands
