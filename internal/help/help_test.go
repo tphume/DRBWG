@@ -8,17 +8,17 @@ import (
 // Test that the argument passed to Handle function is parsed and routed properly
 func TestHandle(t *testing.T) {
 	cases := []struct {
-		arg    string
+		arg    []string
 		expect []string
 	}{
-		{arg: at, expect: CMD[at]},
-		{arg: in, expect: CMD[in]},
-		{arg: lsg, expect: CMD[lsg]},
-		{arg: lsc, expect: CMD[lsc]},
-		{arg: update, expect: CMD[update]},
-		{arg: del, expect: CMD[del]},
-		{arg: all, expect: CMD[all]},
-		{arg: "subcommandThatDoesNotExist", expect: CMD[all]},
+		{arg: []string{at}, expect: CMD[at]},
+		{arg: []string{in}, expect: CMD[in]},
+		{arg: []string{lsg}, expect: CMD[lsg]},
+		{arg: []string{lsc}, expect: CMD[lsc]},
+		{arg: []string{update}, expect: CMD[update]},
+		{arg: []string{del}, expect: CMD[del]},
+		{arg: []string{all}, expect: CMD[all]},
+		{arg: []string{"subcommandThatDoesNotExist"}, expect: CMD[all]},
 	}
 
 	for _, c := range cases {
