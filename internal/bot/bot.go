@@ -5,6 +5,9 @@ import "github.com/bwmarrin/discordgo"
 type Handle func(cmd string) ([]string, error)
 
 type Bot struct {
-	Session *discordgo.Session
-	routes  map[string]Handle
+	MsgCreateRoutes map[string]Handle
+}
+
+func (b *Bot) HandleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	panic("implement me")
 }
