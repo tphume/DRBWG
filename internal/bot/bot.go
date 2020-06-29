@@ -4,7 +4,10 @@ import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
 	"log"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 )
 
 const (
@@ -17,7 +20,23 @@ const (
 type Handle func(cmd []string) ([]string, error)
 
 type Bot struct {
+	session         *discordgo.Session
 	msgCreateRoutes map[string]Handle
+}
+
+// Blocking call that connects the bot to discord
+func (b *Bot) Run() error {
+	if err := b.session.Open(); err != nil {
+		return err
+	}
+
+	defer b.session.Close()
+	log.Println("Bot is now running.  Press CTRL-C to exit.")
+
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+
+	return nil
 }
 
 func (b *Bot) addMsgCreateRoutes(event string, route string, h Handle) error {
