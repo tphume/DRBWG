@@ -28,7 +28,15 @@ type Bot struct {
 // Return a new DRBWG bot with handlers attached
 func New(s *discordgo.Session) *Bot {
 	b := &Bot{session: s}
-	log.Fatal(b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle))
+
+	// Register routes
+	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	// Add handlers
+	b.session.AddHandler(b.handleMsgCreate)
+
 	return b
 }
 
