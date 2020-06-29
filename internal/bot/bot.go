@@ -27,7 +27,7 @@ type Bot struct {
 
 // Return a new DRBWG bot with handlers attached
 func New(s *discordgo.Session) *Bot {
-	b := &Bot{session: s}
+	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
 
 	// Register routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
@@ -51,6 +51,7 @@ func (b *Bot) Run() error {
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+	<-sc
 
 	return nil
 }

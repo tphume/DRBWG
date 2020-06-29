@@ -11,7 +11,7 @@ func main() {
 	token := os.Getenv("DRBWG_TOKEN")
 
 	// Create discord session
-	s, err := discordgo.New("Bot" + token)
+	s, err := discordgo.New("Bot " + token)
 	if err != nil {
 		log.Fatal(err)
 	}
