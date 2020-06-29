@@ -2,6 +2,10 @@ package help
 
 // Expects an empty string or a sub-command
 func Handle(cmd []string) ([]string, error) {
+	if len(cmd) == 0 {
+		return CMD[all], nil
+	}
+
 	res, ok := CMD[cmd[0]]
 	if !ok {
 		return CMD[all], nil
