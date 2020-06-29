@@ -1,17 +1,34 @@
 package bot
 
 import (
+	"errors"
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"strings"
 )
 
-const DRBWG = "drbwg"
+const (
+	DRBWG = "drbwg"
+
+	// List of event types
+	MSG_CREATE = "MSG_CREATE"
+)
 
 type Handle func(cmd []string) ([]string, error)
 
 type Bot struct {
 	MsgCreateRoutes map[string]Handle
+}
+
+func (b *Bot) AddMsgCreateRoutes(event string, route string, h Handle) error {
+	switch event {
+	case MSG_CREATE:
+		b.MsgCreateRoutes[route] = h
+	default:
+		return errors.New("event type does not exist")
+	}
+
+	return nil
 }
 
 func (b *Bot) HandleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
