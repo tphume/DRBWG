@@ -3,6 +3,7 @@ package bot
 import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
+	"github.com/tphume/DRBWG/internal/help"
 	"log"
 	"os"
 	"os/signal"
@@ -22,6 +23,13 @@ type Handle func(cmd []string) ([]string, error)
 type Bot struct {
 	session         *discordgo.Session
 	msgCreateRoutes map[string]Handle
+}
+
+// Return a new DRBWG bot with handlers attached
+func New(s *discordgo.Session) *Bot {
+	b := &Bot{session: s}
+	log.Fatal(b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle))
+	return b
 }
 
 // Blocking call that connects the bot to discord
