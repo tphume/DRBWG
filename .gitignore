@@ -23,4 +23,4 @@
 *.env
 
 # Volume directory
-.volume/
+volume/
