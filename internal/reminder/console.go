@@ -1,4 +1,4 @@
-package in
+package reminder
 
 import (
 	"log"
@@ -7,7 +7,7 @@ import (
 
 type InsertConsole struct{}
 
-func (i InsertConsole) AddReminder(t time.Time, name string) error {
+func (i InsertConsole) Insert(t time.Time, name string) error {
 	log.Printf("New Reminder: {time: %s}, {name: %s}", t, name)
 	return nil
 }

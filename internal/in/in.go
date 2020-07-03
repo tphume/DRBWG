@@ -3,12 +3,13 @@ package in
 import (
 	"errors"
 	"fmt"
+	"github.com/tphume/DRBWG/internal/reminder"
 	"strings"
 	"time"
 )
 
 type Handler struct {
-	insert insertRepo
+	insert reminder.InsertRepo
 }
 
 func (h *Handler) Handle(cmd []string) ([]string, error) {
@@ -17,12 +18,12 @@ func (h *Handler) Handle(cmd []string) ([]string, error) {
 	}
 
 	dur, name := cmd[0], strings.TrimSpace(cmd[1])
-	t, err := parse(dur, name)
+	t, err := parse(dur, name, time.Now())
 	if err != nil {
 		return nil, err
 	}
 
-	if err := h.insert.AddReminder(t, name); err != nil {
+	if err := h.insert.Insert(t, name); err != nil {
 		return nil, err
 	}
 
@@ -33,13 +34,8 @@ func (h *Handler) Handle(cmd []string) ([]string, error) {
 	}, nil
 }
 
-// Represent connection to data source
-type insertRepo interface {
-	AddReminder(t time.Time, name string) error
-}
-
 // Helper function to validate input and return timestamp
-func parse(dur string, name string) (time.Time, error) {
+func parse(dur string, name string, now time.Time) (time.Time, error) {
 	// Parses the duration string
 	d, err := time.ParseDuration(dur)
 	if err != nil || d < 1*time.Minute {
@@ -51,7 +47,7 @@ func parse(dur string, name string) (time.Time, error) {
 		return time.Time{}, INVALID_NAME
 	}
 
-	return time.Now().Add(d).UTC(), nil
+	return now.Add(d).UTC(), nil
 }
 
 // List of errors
