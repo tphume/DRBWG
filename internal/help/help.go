@@ -41,9 +41,9 @@ const (
 		"the second is a name to identify the reminder in the following format - reminderName.\nFull example - **drbwg at " +
 		"Jan-2-15:04-MST-2006 reminderName**"
 	inDesc = "in sub-command requires 2 argument.\nthe first is a duration in the following format (where the first number " +
-		"denotes the number of hours and the second denotes the minutes) - 1-20.\n" +
+		"denotes the number of hours and the second denotes the minutes) - 1h20m.\n" +
 		"the second is a name to identify the reminder in the following format - reminderName.\nFull example - **drbwg at " +
-		"1-20 reminderName**"
+		"1h20m reminderName**"
 	lsgDesc    = "lsg sub-command requires no argument"
 	lscDesc    = "lsc sub-command requires no argument"
 	updateDesc = "update sub-command requires 2 argument.\nthe first is the id of the reminder.\nthe second is either the " +
