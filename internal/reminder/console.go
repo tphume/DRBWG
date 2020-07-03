@@ -7,7 +7,7 @@ import (
 
 type InsertConsole struct{}
 
-func (i InsertConsole) Insert(t time.Time, name string) error {
-	log.Printf("New Reminder: {time: %s}, {name: %s}", t, name)
+func (i InsertConsole) Insert(t time.Time, name string, g string, c string) error {
+	log.Printf("New Reminder: {time: %s}, {name: %s}, {guild: %s}, {channel: %s}", t, name, g, c)
 	return nil
 }

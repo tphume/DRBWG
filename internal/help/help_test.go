@@ -1,6 +1,7 @@
 package help
 
 import (
+	"github.com/bwmarrin/discordgo"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -22,7 +23,7 @@ func TestHandle(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		res, err := Handle(c.arg)
+		res, err := Handle(c.arg, &discordgo.MessageCreate{})
 		assert.NoError(t, err)
 		assert.Equal(t, c.expect, res)
 	}

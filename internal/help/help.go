@@ -1,7 +1,9 @@
 package help
 
+import "github.com/bwmarrin/discordgo"
+
 // Expects an empty string or a sub-command
-func Handle(cmd []string) ([]string, error) {
+func Handle(cmd []string, _ *discordgo.MessageCreate) ([]string, error) {
 	if len(cmd) == 0 {
 		return CMD[all], nil
 	}

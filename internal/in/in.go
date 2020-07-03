@@ -3,6 +3,7 @@ package in
 import (
 	"errors"
 	"fmt"
+	"github.com/bwmarrin/discordgo"
 	"github.com/tphume/DRBWG/internal/reminder"
 	"strings"
 	"time"
@@ -12,7 +13,7 @@ type Handler struct {
 	insert reminder.InsertRepo
 }
 
-func (h *Handler) Handle(cmd []string) ([]string, error) {
+func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, error) {
 	if len(cmd) < 2 {
 		return nil, INVALID_INPUT
 	}
@@ -23,7 +24,7 @@ func (h *Handler) Handle(cmd []string) ([]string, error) {
 		return nil, err
 	}
 
-	if err := h.insert.Insert(t, name); err != nil {
+	if err := h.insert.Insert(t, name, m.GuildID, m.ChannelID); err != nil {
 		return nil, err
 	}
 

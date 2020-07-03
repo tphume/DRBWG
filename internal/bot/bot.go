@@ -18,7 +18,7 @@ const (
 	MSG_CREATE = "MSG_CREATE"
 )
 
-type Handle func(cmd []string) ([]string, error)
+type Handle func(cmd []string, m *discordgo.MessageCreate) ([]string, error)
 
 type Bot struct {
 	session         *discordgo.Session
