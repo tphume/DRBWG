@@ -27,12 +27,12 @@ const (
 
 // List of brief description for sub-commands
 const (
-	atBrief     = "**at** - Set a reminder at specified time"
-	inBrief     = "**in** - Set a reminder for the current time + some given duration"
-	lsgBrief    = "**lsg** - List all the pending reminders for the current guild"
-	lscBrief    = "**lsc** - List all the pending reminders for the current channel"
-	updateBrief = "**updated** - Update a pending reminder with a new specified time"
-	delBrief    = "**del** - Delete a pending reminder"
+	atBrief     = ":alarm_clock: **at** - Set a reminder at specified time"
+	inBrief     = ":timer: **in** - Set a reminder for the current time + some given duration"
+	lsgBrief    = ":books: **lsg** - List all the pending reminders for the current guild"
+	lscBrief    = ":bookmark: **lsc** - List all the pending reminders for the current channel"
+	updateBrief = ":point_up: **updated** - Update a pending reminder with a new specified time"
+	delBrief    = ":red_circle: **del** - Delete a pending reminder"
 )
 
 // List of description for specific sub-commands
