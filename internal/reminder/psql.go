@@ -22,7 +22,7 @@ func (p *Psql) Insert(args InsertArgs) error {
 	defer conn.Release()
 
 	// Insert new reminder
-	if _, err = conn.Exec(ctx, query, query, args.Id, args.GuildId, args.ChannelId, args.T, args.Name); err != nil {
+	if _, err = conn.Exec(ctx, query, args.Id, args.GuildId, args.ChannelId, args.T, args.Name); err != nil {
 		return err
 	}
 
