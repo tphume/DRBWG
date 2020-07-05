@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/google/uuid"
 	"github.com/tphume/DRBWG/internal/reminder"
 	"strings"
 	"time"
@@ -24,7 +25,15 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 		return nil, err
 	}
 
-	if err := h.Insert.Insert(t, name, m.GuildID, m.ChannelID); err != nil {
+	args := reminder.InsertArgs{
+		Id:        uuid.New().String(),
+		GuildId:   m.GuildID,
+		ChannelId: m.ChannelID,
+		T:         t,
+		Name:      name,
+	}
+
+	if err := h.Insert.Insert(args); err != nil {
 		return nil, err
 	}
 
