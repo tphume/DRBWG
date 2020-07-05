@@ -4,6 +4,8 @@ import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
 	"github.com/tphume/DRBWG/internal/help"
+	"github.com/tphume/DRBWG/internal/in"
+	"github.com/tphume/DRBWG/internal/reminder"
 	"log"
 	"os"
 	"os/signal"
@@ -31,6 +33,31 @@ func New(s *discordgo.Session) *Bot {
 
 	// Register routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	// Add handlers
+	b.session.AddHandler(b.handleMsgCreate)
+
+	return b
+}
+
+// Return new DRBWG bot with debugging handlers attached
+func NewDebug(s *discordgo.Session) *Bot {
+	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
+
+	// Create Repo
+	insert := reminder.InsertConsole{}
+
+	// Create in route
+	inHandler := in.Handler{Insert: insert}
+
+	// Register handlers to routes
+	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgCreateRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 

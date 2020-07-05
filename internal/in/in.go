@@ -10,7 +10,7 @@ import (
 )
 
 type Handler struct {
-	insert reminder.InsertRepo
+	Insert reminder.InsertRepo
 }
 
 func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, error) {
