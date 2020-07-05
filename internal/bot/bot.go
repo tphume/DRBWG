@@ -3,6 +3,7 @@ package bot
 import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/tphume/DRBWG/internal/help"
 	"github.com/tphume/DRBWG/internal/in"
 	"github.com/tphume/DRBWG/internal/reminder"
@@ -28,11 +29,21 @@ type Bot struct {
 }
 
 // Return a new DRBWG bot with handlers attached
-func New(s *discordgo.Session) *Bot {
+func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
+
+	// Create Repo
+	insert := &reminder.Psql{Pool: pool}
+
+	// Create in route
+	inHandler := in.Handler{Insert: insert}
 
 	// Register routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgCreateRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 

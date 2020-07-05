@@ -10,7 +10,7 @@ type Psql struct {
 	Pool *pgxpool.Pool
 }
 
-func (p *Psql) InsertRepo(args InsertArgs) error {
+func (p *Psql) Insert(args InsertArgs) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*7)
 	defer cancel()
 
