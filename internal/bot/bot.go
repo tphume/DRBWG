@@ -113,7 +113,7 @@ func (b *Bot) handleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) 
 		return
 	}
 
-	res, err := route(msg[2:])
+	res, err := route(msg[2:], m)
 	if err != nil {
 		log.Println(err)
 		_, _ = s.ChannelMessageSend(m.ChannelID, "An error occurred")

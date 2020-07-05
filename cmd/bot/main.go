@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
+	var drbwg *bot.Bot
+
 	token := os.Getenv("DRBWG_TOKEN")
+	debug := os.Getenv("DEBUG")
 
 	// Create discord session
 	s, err := discordgo.New("Bot " + token)
@@ -17,6 +20,11 @@ func main() {
 	}
 
 	// Create and Run DRBWG Bot
-	drbwg := bot.New(s)
+	if debug != "" {
+		drbwg = bot.NewDebug(s)
+	} else {
+		drbwg = bot.New(s)
+	}
+
 	log.Fatal(drbwg.Run())
 }

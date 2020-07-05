@@ -24,7 +24,7 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 		return nil, err
 	}
 
-	if err := h.insert.Insert(t, name, m.GuildID, m.ChannelID); err != nil {
+	if err := h.Insert.Insert(t, name, m.GuildID, m.ChannelID); err != nil {
 		return nil, err
 	}
 
