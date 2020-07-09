@@ -41,6 +41,7 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 
 	return []string{
 		"**Reminder Added** :white_check_mark:",
+		fmt.Sprintf("**ID**: %s", args.Id),
 		fmt.Sprintf("**Name**: %s", name),
 		fmt.Sprintf("**Time**: %s", t),
 	}, nil
