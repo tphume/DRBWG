@@ -26,11 +26,13 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 	}
 
 	args := reminder.InsertArgs{
-		Id:        uuid.New().String(),
-		GuildId:   m.GuildID,
-		ChannelId: m.ChannelID,
-		T:         t,
-		Name:      name,
+		Reminder: reminder.Reminder{
+			Id:        uuid.New().String(),
+			GuildId:   m.GuildID,
+			ChannelId: m.ChannelID,
+			T:         t,
+			Name:      name,
+		},
 	}
 
 	if err := h.Insert.Insert(args); err != nil {

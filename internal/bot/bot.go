@@ -58,7 +58,7 @@ func NewDebug(s *discordgo.Session) *Bot {
 	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
 
 	// Create Repo
-	insert := reminder.InsertConsole{}
+	insert := &reminder.InsertConsole{Data: []reminder.Reminder{}}
 
 	// Create in route
 	inHandler := in.Handler{Insert: insert}

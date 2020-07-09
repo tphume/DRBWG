@@ -3,18 +3,16 @@ package reminder
 import "time"
 
 type Reminder struct {
-	Id   string
-	T    time.Time
-	Name string
-}
-
-// Argument definition for interface
-type InsertArgs struct {
 	Id        string
 	GuildId   string
 	ChannelId string
 	T         time.Time
 	Name      string
+}
+
+// Argument definition for interface
+type InsertArgs struct {
+	Reminder
 }
 
 type GuildListArgs struct {
@@ -23,7 +21,7 @@ type GuildListArgs struct {
 
 // Response definition for interface
 type GuildListRes struct {
-	Data []*Reminder
+	Data []Reminder
 }
 
 // Represent connection to data source
