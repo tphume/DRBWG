@@ -11,3 +11,8 @@ func (i *Console) Insert(args InsertArgs) error {
 	i.Data = append(i.Data, args.Reminder)
 	return nil
 }
+
+func (i *Console) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
+	panic("implement me")
+}
+

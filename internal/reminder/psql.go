@@ -29,7 +29,7 @@ func (p *Psql) Insert(args InsertArgs) error {
 	return nil
 }
 
-func (p *Psql) GuildList(args GuildListArgs) (*GuildListRes, error) {
+func (p *Psql) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
 	panic("implement me")
 }
 

@@ -30,5 +30,5 @@ type InsertRepo interface {
 }
 
 type GuildListRepo interface {
-	GuildList(args GuildListArgs) (*GuildListRes, error)
+	ListFromGuild(args GuildListArgs) (*GuildListRes, error)
 }
