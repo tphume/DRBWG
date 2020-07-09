@@ -33,10 +33,10 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
 
 	// Create Repo
-	insert := &reminder.Psql{Pool: pool}
+	psql := &reminder.Psql{Pool: pool}
 
 	// Create in route
-	inHandler := in.Handler{Insert: insert}
+	inHandler := in.Handler{Insert: psql}
 
 	// Register routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
@@ -58,10 +58,10 @@ func NewDebug(s *discordgo.Session) *Bot {
 	b := &Bot{session: s, msgCreateRoutes: make(map[string]Handle)}
 
 	// Create Repo
-	insert := &reminder.InsertConsole{Data: []reminder.Reminder{}}
+	console := &reminder.Console{Data: []reminder.Reminder{}}
 
 	// Create in route
-	inHandler := in.Handler{Insert: insert}
+	inHandler := in.Handler{Insert: console}
 
 	// Register handlers to routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
