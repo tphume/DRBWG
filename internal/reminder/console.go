@@ -13,6 +13,12 @@ func (i *Console) Insert(args InsertArgs) error {
 }
 
 func (i *Console) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
-	panic("implement me")
-}
+	res := &GuildListRes{[]Reminder{}}
+	for _, d := range i.Data {
+		if d.GuildId == args.GuildId {
+			res.Data = append(res.Data, d)
+		}
+	}
 
+	return res, nil
+}
