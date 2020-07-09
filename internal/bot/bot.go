@@ -6,6 +6,7 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/tphume/DRBWG/internal/help"
 	"github.com/tphume/DRBWG/internal/in"
+	"github.com/tphume/DRBWG/internal/lsg"
 	"github.com/tphume/DRBWG/internal/reminder"
 	"log"
 	"os"
@@ -62,6 +63,7 @@ func NewDebug(s *discordgo.Session) *Bot {
 
 	// Create in route
 	inHandler := in.Handler{Insert: console}
+	lsgHandler := lsg.Handler{GuildList: console}
 
 	// Register handlers to routes
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
@@ -69,6 +71,10 @@ func NewDebug(s *discordgo.Session) *Bot {
 	}
 
 	if err := b.addMsgCreateRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgCreateRoutes(MSG_CREATE, "lsg", lsgHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
