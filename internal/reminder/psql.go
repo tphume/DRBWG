@@ -29,4 +29,8 @@ func (p *Psql) Insert(args InsertArgs) error {
 	return nil
 }
 
+func (p *Psql) GuildList(args GuildListArgs) (*GuildListRes, error) {
+	panic("implement me")
+}
+
 const query = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
