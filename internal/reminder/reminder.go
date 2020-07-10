@@ -19,8 +19,17 @@ type GuildListArgs struct {
 	GuildId string
 }
 
+type ChannelListArgs struct {
+	GuildId   string
+	ChannelId string
+}
+
 // Response definition for interface
 type GuildListRes struct {
+	Data []Reminder
+}
+
+type ChannelListRes struct {
 	Data []Reminder
 }
 
@@ -31,4 +40,8 @@ type InsertRepo interface {
 
 type GuildListRepo interface {
 	ListFromGuild(args GuildListArgs) (*GuildListRes, error)
+}
+
+type ChannelListRepo interface {
+	ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 }

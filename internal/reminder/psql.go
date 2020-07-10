@@ -64,6 +64,10 @@ func (p *Psql) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
 	return res, nil
 }
 
+func (p *Psql) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
+	panic("implement me")
+}
+
 const (
 	insertQuery    = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
 	guildListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1`

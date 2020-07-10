@@ -22,3 +22,7 @@ func (i *Console) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
 
 	return res, nil
 }
+
+func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
+	panic("implement me")
+}
