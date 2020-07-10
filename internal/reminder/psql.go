@@ -76,7 +76,7 @@ func (p *Psql) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
 	defer conn.Release()
 
 	// Query by Guild ID
-	rows, err := conn.Query(ctx, guildListQuery, args.GuildId, args.ChannelId)
+	rows, err := conn.Query(ctx, channelListQuery, args.GuildId, args.ChannelId)
 	if err != nil {
 		return nil, err
 	}
