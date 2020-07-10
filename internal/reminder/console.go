@@ -24,5 +24,12 @@ func (i *Console) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
 }
 
 func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
-	panic("implement me")
+	res := &ChannelListRes{Data: []Reminder{}}
+	for _, d := range i.Data {
+		if d.GuildId == args.GuildId && d.ChannelId == args.ChannelId {
+			res.Data = append(res.Data, d)
+		}
+	}
+
+	return res, nil
 }
