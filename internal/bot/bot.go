@@ -38,13 +38,18 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 
 	// Create in route
 	inHandler := in.Handler{Insert: psql}
+	lsgHandler := lsg.Handler{GuildList: psql}
 
 	// Register routes
-	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := b.addMsgCreateRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
+	if err := b.addMsgRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "lsg", lsgHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
@@ -66,15 +71,15 @@ func NewDebug(s *discordgo.Session) *Bot {
 	lsgHandler := lsg.Handler{GuildList: console}
 
 	// Register handlers to routes
-	if err := b.addMsgCreateRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := b.addMsgCreateRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
+	if err := b.addMsgRoutes(MSG_CREATE, "in", inHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := b.addMsgCreateRoutes(MSG_CREATE, "lsg", lsgHandler.Handle); err != nil {
+	if err := b.addMsgRoutes(MSG_CREATE, "lsg", lsgHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
@@ -100,7 +105,7 @@ func (b *Bot) Run() error {
 	return nil
 }
 
-func (b *Bot) addMsgCreateRoutes(event string, route string, h Handle) error {
+func (b *Bot) addMsgRoutes(event string, route string, h Handle) error {
 	switch event {
 	case MSG_CREATE:
 		b.msgCreateRoutes[route] = h

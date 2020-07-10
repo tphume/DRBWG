@@ -24,7 +24,7 @@ func format(data []reminder.Reminder) []string {
 
 	res[0] = fmt.Sprintf("**Guild has a total of %d pending reminders** :face_with_monocle:\n", len(data))
 	for i := 0; i < len(data); i++ {
-		res[i+1] = fmt.Sprintf("**---------------------------------------------------------**" +
+		res[i+1] = fmt.Sprintf("**---------------------------------------------------------**"+
 			"\n**ID**: %s\n**Name**: %s\n**Time**: %s\n",
 			data[i].Id, data[i].Name, data[i].T)
 	}
