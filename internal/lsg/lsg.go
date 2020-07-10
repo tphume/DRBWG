@@ -22,9 +22,10 @@ func (h *Handler) Handle(_ []string, m *discordgo.MessageCreate) ([]string, erro
 func format(data []reminder.Reminder) []string {
 	res := make([]string, len(data)+1)
 
-	res[0] = fmt.Sprintf("**Retrieved a total of %d reminders for this guild** :face_with_monocle:\n", len(data))
+	res[0] = fmt.Sprintf("**Guild has a total of %d pending reminders** :face_with_monocle:\n", len(data))
 	for i := 0; i < len(data); i++ {
-		res[i+1] = fmt.Sprintf("**Reminder Added** :white_check_mark:\n**ID**: %s\n**Name**: %s\n**Time**: %s\n",
+		res[i+1] = fmt.Sprintf("**---------------------------------------------------------**" +
+			"\n**ID**: %s\n**Name**: %s\n**Time**: %s\n",
 			data[i].Id, data[i].Name, data[i].T)
 	}
 
