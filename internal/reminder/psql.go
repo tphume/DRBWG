@@ -22,7 +22,7 @@ func (p *Psql) Insert(args InsertArgs) error {
 	defer conn.Release()
 
 	// Insert new reminder
-	if _, err = conn.Exec(ctx, query, args.Id, args.GuildId, args.ChannelId, args.T, args.Name); err != nil {
+	if _, err = conn.Exec(ctx, insertQuery, args.Id, args.GuildId, args.ChannelId, args.T, args.Name); err != nil {
 		return err
 	}
 
@@ -30,7 +30,41 @@ func (p *Psql) Insert(args InsertArgs) error {
 }
 
 func (p *Psql) ListFromGuild(args GuildListArgs) (*GuildListRes, error) {
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Release()
+
+	// Query by Guild ID
+	rows, err := conn.Query(ctx, guildListQuery, args.GuildId)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	// Iterate through results
+	res := &GuildListRes{Data: []Reminder{}}
+	for rows.Next() {
+		var r Reminder
+
+		err = rows.Scan(&r.Id, &r.T, &r.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		res.Data = append(res.Data, r)
+	}
+
+	return res, nil
 }
 
-const query = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
+const (
+	insertQuery    = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
+	guildListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1`
+)
