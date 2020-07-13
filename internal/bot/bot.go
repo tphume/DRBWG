@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/tphume/DRBWG/internal/del"
 	"github.com/tphume/DRBWG/internal/help"
 	"github.com/tphume/DRBWG/internal/in"
 	"github.com/tphume/DRBWG/internal/lsc"
@@ -76,6 +77,7 @@ func NewDebug(s *discordgo.Session) *Bot {
 	inHandler := in.Handler{Insert: console}
 	lsgHandler := lsg.Handler{GuildList: console}
 	lscHandler := lsc.Handler{ChannelList: console}
+	delHandler := del.Handler{DelRepo: console}
 
 	// Register handlers to routes
 	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
@@ -91,6 +93,10 @@ func NewDebug(s *discordgo.Session) *Bot {
 	}
 
 	if err := b.addMsgRoutes(MSG_CREATE, "lsc", lscHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "del", delHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
