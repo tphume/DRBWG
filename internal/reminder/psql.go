@@ -112,7 +112,7 @@ func (p *Psql) Del(args *DelArgs) error {
 
 	// Delete by reminder id and guild id
 	row := conn.QueryRow(ctx, deleteQuery, args.Id, args.GuildId)
-	if err := row.Scan(args.T, args.Name); err != nil {
+	if err := row.Scan(&args.T, &args.Name); err != nil {
 		return err
 	}
 

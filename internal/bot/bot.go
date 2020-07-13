@@ -42,6 +42,7 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	inHandler := in.Handler{Insert: psql}
 	lsgHandler := lsg.Handler{GuildList: psql}
 	lscHandler := lsc.Handler{ChannelList: psql}
+	delHandler := del.Handler{DelRepo: psql}
 
 	// Register routes
 	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
@@ -57,6 +58,10 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	}
 
 	if err := b.addMsgRoutes(MSG_CREATE, "lsc", lscHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "del", delHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
