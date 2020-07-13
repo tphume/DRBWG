@@ -1,6 +1,9 @@
 package reminder
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Reminder struct {
 	Id        string
@@ -57,3 +60,8 @@ type ChannelListRepo interface {
 type DelRepo interface {
 	Del(args *DelArgs) error
 }
+
+// List of Errors
+var (
+	ErrDelNotFound = errors.New("could not find reminder with that name")
+)
