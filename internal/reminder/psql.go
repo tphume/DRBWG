@@ -100,11 +100,28 @@ func (p *Psql) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
 }
 
 func (p *Psql) Del(args *DelArgs) error {
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	// Delete by reminder id and guild id
+	row := conn.QueryRow(ctx, deleteQuery, args.Id, args.GuildId)
+	if err := row.Scan(args.T, args.Name); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 const (
 	insertQuery      = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
 	guildListQuery   = `SELECT id, time, name FROM reminders WHERE guild_id = $1`
 	channelListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND channel_id = $2`
+	deleteQuery      = `DELETE FROM reminders WHERE id = $1 AND guild_id = $2 RETURNING time, name`
 )
