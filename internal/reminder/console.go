@@ -33,3 +33,7 @@ func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 
 	return res, nil
 }
+
+func (i *Console) Del(args *DelArgs) error {
+	panic("implement me")
+}

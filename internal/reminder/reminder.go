@@ -24,6 +24,10 @@ type ChannelListArgs struct {
 	ChannelId string
 }
 
+type DelArgs struct {
+	Reminder
+}
+
 // Response definition for interface
 type GuildListRes struct {
 	Data []Reminder
@@ -31,6 +35,10 @@ type GuildListRes struct {
 
 type ChannelListRes struct {
 	Data []Reminder
+}
+
+type DelRes struct {
+	Data Reminder
 }
 
 // Represent connection to data source
@@ -44,4 +52,8 @@ type GuildListRepo interface {
 
 type ChannelListRepo interface {
 	ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
+}
+
+type DelRepo interface {
+	Del(args *DelArgs) error
 }
