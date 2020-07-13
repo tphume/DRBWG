@@ -38,7 +38,7 @@ func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 
 func (i *Console) Del(args *DelArgs) error {
 	for index, d := range i.Data {
-		if d.Id == args.Id {
+		if d.Id == args.Id && d.GuildId == args.GuildId {
 			args.Reminder = d
 
 			if index == 0 {

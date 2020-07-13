@@ -63,5 +63,6 @@ type DelRepo interface {
 
 // List of Errors
 var (
-	ErrDelNotFound = errors.New("could not find reminder with that name")
+	ErrNotEnoughArgs = errors.New("invalid input. not enough arguments")
+	ErrDelNotFound   = errors.New("could not find reminder with that name")
 )
