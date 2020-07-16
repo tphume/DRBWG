@@ -49,7 +49,7 @@ const (
 	lsgDesc    = "lsg sub-command requires no argument"
 	lscDesc    = "lsc sub-command requires no argument"
 	updateDesc = "update sub-command requires 2 argument.\nthe first is the id of the reminder.\nthe second is either the " +
-		"duration or date and time.\nsee the at and in sub-command for the format. Full example - **drbwg 432904329430 1-4**"
+		"duration or date and time.\nsee the at and in sub-command for the format. Full example - **drbwg 432904329430 1h4m**"
 	delDesc = "del sub-command requires one argument.\nthe id of the reminder to be deleted.\nFull example - **drbwg delete " +
 		"32432432**"
 )

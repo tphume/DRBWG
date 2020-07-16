@@ -34,8 +34,9 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 
 	return []string{
 		"**Reminder Deleted** :exclamation:",
+		"\n**---------------------------------------------------------**",
 		fmt.Sprintf("**ID**: %s", args.Id),
 		fmt.Sprintf("**Name**: %s", args.Name),
-		fmt.Sprintf("**Time**: %s", args.T),
+		fmt.Sprintf("**Time**: %s", args.T.Format("Mon Jan 2 15:04:05 MST 2006")),
 	}, nil
 }

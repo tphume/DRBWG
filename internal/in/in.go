@@ -19,8 +19,10 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 		return nil, INVALID_INPUT
 	}
 
+	now := time.Now()
 	dur, name := cmd[0], strings.TrimSpace(cmd[1])
-	t, err := parse(dur, name, time.Now())
+
+	t, err := parse(dur, name, now)
 	if err != nil {
 		return nil, err
 	}
@@ -42,8 +44,10 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 	return []string{
 		"**Reminder Added** :white_check_mark:",
 		fmt.Sprintf("**ID**: %s", args.Id),
+		"\n**---------------------------------------------------------**",
 		fmt.Sprintf("**Name**: %s", name),
-		fmt.Sprintf("**Time**: %s", t),
+		fmt.Sprintf("**Time**: %s", t.Format("Mon Jan 2 15:04:05 MST 2006")),
+		fmt.Sprintf("Will remind in **%s**", t.Sub(now)),
 	}, nil
 }
 
