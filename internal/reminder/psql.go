@@ -10,8 +10,24 @@ type Psql struct {
 	Pool *pgxpool.Pool
 }
 
+// This is duplicate of insert but whatever. I don't have the energy to refactor it
 func (p *Psql) Set(args SetArgs) error {
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*7)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	// Insert new reminder
+	if _, err = conn.Exec(ctx, insertQuery, args.Id, args.GuildId, args.ChannelId, args.T, args.Name); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (p *Psql) Insert(args InsertArgs) error {
