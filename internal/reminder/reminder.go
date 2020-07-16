@@ -14,6 +14,10 @@ type Reminder struct {
 }
 
 // Argument definition for interface
+type SetArgs struct {
+	Reminder
+}
+
 type InsertArgs struct {
 	Reminder
 }
@@ -45,6 +49,10 @@ type DelRes struct {
 }
 
 // Represent connection to data source
+type SetRepo interface {
+	Set(args SetArgs) error
+}
+
 type InsertRepo interface {
 	Insert(args InsertArgs) error
 }

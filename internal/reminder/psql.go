@@ -10,6 +10,10 @@ type Psql struct {
 	Pool *pgxpool.Pool
 }
 
+func (p *Psql) Set(args SetArgs) error {
+	panic("implement me")
+}
+
 func (p *Psql) Insert(args InsertArgs) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*7)
 	defer cancel()
