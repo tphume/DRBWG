@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/tphume/DRBWG/internal/at"
 	"github.com/tphume/DRBWG/internal/del"
 	"github.com/tphume/DRBWG/internal/help"
 	"github.com/tphume/DRBWG/internal/in"
@@ -39,13 +40,19 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	psql := &reminder.Psql{Pool: pool}
 
 	// Create in route
+	atHandler := at.Handler{}
 	inHandler := in.Handler{Insert: psql}
 	lsgHandler := lsg.Handler{GuildList: psql}
 	lscHandler := lsc.Handler{ChannelList: psql}
 	delHandler := del.Handler{DelRepo: psql}
 
 	// Register routes
+
 	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "at", atHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
@@ -79,6 +86,7 @@ func NewDebug(s *discordgo.Session) *Bot {
 	console := &reminder.Console{Data: []reminder.Reminder{}}
 
 	// Create in route
+	atHandler := at.Handler{Setter: console}
 	inHandler := in.Handler{Insert: console}
 	lsgHandler := lsg.Handler{GuildList: console}
 	lscHandler := lsc.Handler{ChannelList: console}
@@ -86,6 +94,10 @@ func NewDebug(s *discordgo.Session) *Bot {
 
 	// Register handlers to routes
 	if err := b.addMsgRoutes(MSG_CREATE, "help", help.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "at", atHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
