@@ -47,6 +47,7 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) (*discordgo.M
 		Footer:      reminder.Footer,
 		Author:      reminder.Author,
 		Fields: []*discordgo.MessageEmbedField{
+			{Name: "ID", Value: args.Id},
 			{Name: "Name", Value: name},
 			{Name: "Timestamp", Value: t.Format("Mon Jan 2 15:04:05 MST 2006")},
 			{Name: "Remaining Duration", Value: t.Sub(now).String()},
