@@ -36,6 +36,10 @@ func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 	return res, nil
 }
 
+func (i *Console) Update(args UpdateArgs) error {
+	panic("implement me")
+}
+
 func (i *Console) Del(args *DelArgs) error {
 	for index, d := range i.Data {
 		if d.Id == args.Id && d.GuildId == args.GuildId {
