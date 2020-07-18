@@ -11,6 +11,7 @@ import (
 	"github.com/tphume/DRBWG/internal/lsc"
 	"github.com/tphume/DRBWG/internal/lsg"
 	"github.com/tphume/DRBWG/internal/reminder"
+	"github.com/tphume/DRBWG/internal/update"
 	"log"
 	"os"
 	"os/signal"
@@ -44,6 +45,7 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	inHandler := in.Handler{Insert: psql}
 	lsgHandler := lsg.Handler{GuildList: psql}
 	lscHandler := lsc.Handler{ChannelList: psql}
+	updateHandler := update.Handler{Up: psql}
 	delHandler := del.Handler{DelRepo: psql}
 
 	// Register routes
@@ -65,6 +67,10 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	}
 
 	if err := b.addMsgRoutes(MSG_CREATE, "lsc", lscHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "update", updateHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
@@ -90,6 +96,7 @@ func NewDebug(s *discordgo.Session) *Bot {
 	inHandler := in.Handler{Insert: console}
 	lsgHandler := lsg.Handler{GuildList: console}
 	lscHandler := lsc.Handler{ChannelList: console}
+	updateHandler := update.Handler{Up: console}
 	delHandler := del.Handler{DelRepo: console}
 
 	// Register handlers to routes
@@ -110,6 +117,10 @@ func NewDebug(s *discordgo.Session) *Bot {
 	}
 
 	if err := b.addMsgRoutes(MSG_CREATE, "lsc", lscHandler.Handle); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := b.addMsgRoutes(MSG_CREATE, "update", updateHandler.Handle); err != nil {
 		log.Fatal(err)
 	}
 
