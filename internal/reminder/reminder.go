@@ -2,6 +2,7 @@ package reminder
 
 import (
 	"errors"
+	"github.com/bwmarrin/discordgo"
 	"time"
 )
 
@@ -75,4 +76,20 @@ var (
 	ErrBadArgs       = errors.New("bad argument for command")
 	ErrInvalidId     = errors.New("invalid id format")
 	ErrDelNotFound   = errors.New("could not find reminder with that name")
+)
+
+// List of things for embed messages
+var (
+	Color = 15224923
+
+	Footer = &discordgo.MessageEmbedFooter{
+		Text:    "Made by tphume",
+		IconURL: "https://cdn.discordapp.com/embed/avatars/4.png",
+	}
+
+	Author = &discordgo.MessageEmbedAuthor{
+		URL:     "https://github.com/tPhume",
+		Name:    "tphume",
+		IconURL: "https://avatars1.githubusercontent.com/u/41682682?s=460&u=ef6f7c71c9bfd5ae6c8de6299a96cc0075e34767&v=4",
+	}
 )
