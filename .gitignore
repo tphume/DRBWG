@@ -21,3 +21,6 @@
 
 # Env file
 *.env
+
+# Volume directory
+volume/

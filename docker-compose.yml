@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  psql:
+    build: ./docker/psql
+    image: drbwg_psql:1.0.0
+    container_name: drbwg-psql-con
+    environment:
+      POSTGRES_USER: drbwg
+      POSTGRES_PASSWORD: drbwg-password
+    ports:
+    - "5432:5432"
+    volumes:
+      - "./volume/psql:/var/lib/postgresql/data"
+
+  bot:
+    build: .
+    image: drbwg_bot
+    environment:
+      DRBWG_TOKEN: ${DRBWG_TOKEN}
+      PSQL_URI: postgresql://drbwg:drbwg-password@drbwg-psql-con:5432
