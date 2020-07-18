@@ -11,7 +11,7 @@ type Handler struct {
 	ChannelList reminder.ChannelListRepo
 }
 
-func (h *Handler) Handle(_ []string, m *discordgo.MessageCreate) ([]string, error) {
+func (h *Handler) Handle(_ []string, m *discordgo.MessageCreate) (*discordgo.MessageEmbed, error) {
 	res, err := h.ChannelList.ListFromChannel(reminder.ChannelListArgs{GuildId: m.GuildID, ChannelId: m.ChannelID})
 	if err != nil {
 		return nil, err
@@ -20,16 +20,26 @@ func (h *Handler) Handle(_ []string, m *discordgo.MessageCreate) ([]string, erro
 	return format(res.Data), nil
 }
 
-func format(data []reminder.Reminder) []string {
+func format(data []reminder.Reminder) *discordgo.MessageEmbed {
 	now := time.Now()
-	res := make([]string, len(data)+1)
-
-	res[0] = fmt.Sprintf("**This Channel has a total of %d pending reminders** :face_with_monocle:\n", len(data))
-	for i := 0; i < len(data); i++ {
-		res[i+1] = fmt.Sprintf("**---------------------------------------------------------**"+
-			"\n**ID**: %s\n**Name**: %s\n**Time**: %s\nWill remind in **%s**\n",
-			data[i].Id, data[i].Name, data[i].T.Format("Mon Jan 2 15:04:05 MST 2006"), data[i].T.Sub(now))
+	res := &discordgo.MessageEmbed{
+		URL:         reminder.URL,
+		Title:       "Channel pending reminders :face_with_monocle:",
+		Description: fmt.Sprintf("This Channel has a total of %d pending reminders", len(data)),
+		Color:       reminder.Color,
+		Footer:      reminder.Footer,
+		Author:      reminder.Author,
 	}
 
+	f := make([]*discordgo.MessageEmbedField, len(data))
+	for i := 0; i < len(data); i++ {
+		f[i] = &discordgo.MessageEmbedField{
+			Name: data[i].Id,
+			Value: fmt.Sprintf("**Name**: %s\n**Time**: %s\n**Remaining Duration**: %s\n",
+				data[i].Name, data[i].T.Format("Mon Jan 2 15:04:05 MST 2006"), data[i].T.Sub(now)),
+		}
+	}
+
+	res.Fields = f
 	return res
 }
