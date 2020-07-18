@@ -187,5 +187,7 @@ func (b *Bot) handleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) 
 	}
 
 	// Format response and send message
-	_, _ = s.ChannelMessageSendEmbed(m.ChannelID, res)
+	if _, err = s.ChannelMessageSendEmbed(m.ChannelID, res); err != nil {
+		log.Println(err.Error())
+	}
 }

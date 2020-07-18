@@ -36,7 +36,7 @@ func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 	return res, nil
 }
 
-func (i *Console) Update(args UpdateArgs) error {
+func (i *Console) Update(args *UpdateArgs) error {
 	for index, d := range i.Data {
 		if d.Id == args.Id && d.GuildId == args.GuildId {
 			args.Reminder = d

@@ -119,7 +119,7 @@ func (p *Psql) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
 	return res, nil
 }
 
-func (p *Psql) Update(args UpdateArgs) error {
+func (p *Psql) Update(args *UpdateArgs) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
 	defer cancel()
 

@@ -67,7 +67,7 @@ type ChannelListRepo interface {
 }
 
 type UpdateRepo interface {
-	Update(args UpdateArgs) error
+	Update(args *UpdateArgs) error
 }
 
 type DelRepo interface {

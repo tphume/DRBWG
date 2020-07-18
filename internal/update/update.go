@@ -24,7 +24,7 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) (*discordgo.M
 		return nil, err
 	}
 
-	args := reminder.UpdateArgs{
+	args := &reminder.UpdateArgs{
 		Reminder: reminder.Reminder{
 			Id:        id,
 			GuildId:   m.GuildID,
