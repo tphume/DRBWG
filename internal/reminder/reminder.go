@@ -79,7 +79,7 @@ var (
 	ErrNotEnoughArgs = errors.New("invalid input. not enough arguments")
 	ErrBadArgs       = errors.New("bad argument for command")
 	ErrInvalidId     = errors.New("invalid id format")
-	ErrDelNotFound   = errors.New("could not find reminder with that name")
+	ErrNotFound      = errors.New("could not find reminder with that name")
 )
 
 // List of things for embed messages

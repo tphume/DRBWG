@@ -37,7 +37,16 @@ func (i *Console) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error)
 }
 
 func (i *Console) Update(args UpdateArgs) error {
-	panic("implement me")
+	for index, d := range i.Data {
+		if d.Id == args.Id && d.GuildId == args.GuildId {
+			args.Reminder = d
+			i.Data[index].T = args.T
+
+			return nil
+		}
+	}
+
+	return ErrNotFound
 }
 
 func (i *Console) Del(args *DelArgs) error {
@@ -57,5 +66,5 @@ func (i *Console) Del(args *DelArgs) error {
 		}
 	}
 
-	return ErrDelNotFound
+	return ErrNotFound
 }
