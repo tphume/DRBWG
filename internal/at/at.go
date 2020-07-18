@@ -1,7 +1,6 @@
 package at
 
 import (
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/google/uuid"
 	"github.com/tphume/DRBWG/internal/reminder"
@@ -13,7 +12,7 @@ type Handler struct {
 	Setter reminder.SetRepo
 }
 
-func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, error) {
+func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) (*discordgo.MessageEmbed, error) {
 	if len(cmd) < 2 {
 		return nil, reminder.ErrNotEnoughArgs
 	}
@@ -40,13 +39,18 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 		return nil, err
 	}
 
-	return []string{
-		"**Reminder Added** :white_check_mark:",
-		fmt.Sprintf("**ID**: %s", args.Id),
-		"\n**---------------------------------------------------------**",
-		fmt.Sprintf("**Name**: %s", name),
-		fmt.Sprintf("**Time**: %s", t.Format("Mon Jan 2 15:04:05 MST 2006")),
-		fmt.Sprintf("Will remind in **%s**", t.Sub(now)),
+	return &discordgo.MessageEmbed{
+		URL:         reminder.URL,
+		Title:       "Added new reminder :white_check_mark:",
+		Description: "A new reminder has successfully been added",
+		Color:       reminder.Color,
+		Footer:      reminder.Footer,
+		Author:      reminder.Author,
+		Fields: []*discordgo.MessageEmbedField{
+			{Name: "Name", Value: name},
+			{Name: "Timestamp", Value: t.Format("Mon Jan 2 15:04:05 MST 2006")},
+			{Name: "Remaining Duration", Value: t.Sub(now).String()},
+		},
 	}, nil
 }
 
