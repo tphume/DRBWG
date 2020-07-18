@@ -120,7 +120,23 @@ func (p *Psql) ListFromChannel(args ChannelListArgs) (*ChannelListRes, error) {
 }
 
 func (p *Psql) Update(args UpdateArgs) error {
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	// Update by reminder id and guild id
+	row := conn.QueryRow(ctx, updateQuery, args.T, args.Id, args.GuildId)
+	if err := row.Scan(&args.Name); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (p *Psql) Del(args *DelArgs) error {
@@ -147,5 +163,6 @@ const (
 	insertQuery      = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
 	guildListQuery   = `SELECT id, time, name FROM reminders WHERE guild_id = $1`
 	channelListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND channel_id = $2`
+	updateQuery      = `UPDATE reminders SET time = $1 WHERE id = $2 AND guild_id = $3 RETURNING name`
 	deleteQuery      = `DELETE FROM reminders WHERE id = $1 AND guild_id = $2 RETURNING time, name`
 )
