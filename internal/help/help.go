@@ -43,6 +43,7 @@ func newEmbedAll() *discordgo.MessageEmbed {
 	}
 
 	return &discordgo.MessageEmbed{
+		URL:         reminder.URL,
 		Title:       "All Commands",
 		Description: allBrief,
 		Color:       reminder.Color,

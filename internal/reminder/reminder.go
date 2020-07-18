@@ -81,6 +81,7 @@ var (
 // List of things for embed messages
 var (
 	Color = 15224923
+	URL   = "https://github.com/tphume/DRBWG"
 
 	Footer = &discordgo.MessageEmbedFooter{
 		Text:    "Made by tphume",
