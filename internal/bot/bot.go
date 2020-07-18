@@ -40,7 +40,7 @@ func New(s *discordgo.Session, pool *pgxpool.Pool) *Bot {
 	psql := &reminder.Psql{Pool: pool}
 
 	// Create in route
-	atHandler := at.Handler{}
+	atHandler := at.Handler{Setter: psql}
 	inHandler := in.Handler{Insert: psql}
 	lsgHandler := lsg.Handler{GuildList: psql}
 	lscHandler := lsc.Handler{ChannelList: psql}

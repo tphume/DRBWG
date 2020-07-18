@@ -1,7 +1,6 @@
 package del
 
 import (
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/google/uuid"
 	"github.com/tphume/DRBWG/internal/reminder"
@@ -11,7 +10,7 @@ type Handler struct {
 	DelRepo reminder.DelRepo
 }
 
-func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, error) {
+func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) (*discordgo.MessageEmbed, error) {
 	if len(cmd) == 0 {
 		return nil, reminder.ErrNotEnoughArgs
 	}
@@ -32,11 +31,17 @@ func (h *Handler) Handle(cmd []string, m *discordgo.MessageCreate) ([]string, er
 		return nil, err
 	}
 
-	return []string{
-		"**Reminder Deleted** :exclamation:",
-		"\n**---------------------------------------------------------**",
-		fmt.Sprintf("**ID**: %s", args.Id),
-		fmt.Sprintf("**Name**: %s", args.Name),
-		fmt.Sprintf("**Time**: %s", args.T.Format("Mon Jan 2 15:04:05 MST 2006")),
+	return &discordgo.MessageEmbed{
+		URL:         reminder.URL,
+		Title:       "Delete reminder :exclamation:",
+		Description: "A reminder has successfully been deleted",
+		Color:       reminder.Color,
+		Footer:      reminder.Footer,
+		Author:      reminder.Author,
+		Fields: []*discordgo.MessageEmbedField{
+			{Name: "ID", Value: args.Id},
+			{Name: "Name", Value: args.Name},
+			{Name: "Timestamp", Value: args.T.Format("Mon Jan 2 15:04:05 MST 2006")},
+		},
 	}, nil
 }
