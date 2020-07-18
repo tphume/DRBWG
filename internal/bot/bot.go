@@ -25,7 +25,7 @@ const (
 	MSG_CREATE = "MSG_CREATE"
 )
 
-type Handle func(cmd []string, m *discordgo.MessageCreate) ([]string, error)
+type Handle func(cmd []string, m *discordgo.MessageCreate) (*discordgo.MessageEmbed, error)
 
 type Bot struct {
 	session         *discordgo.Session
@@ -176,6 +176,5 @@ func (b *Bot) handleMsgCreate(s *discordgo.Session, m *discordgo.MessageCreate) 
 	}
 
 	// Format response and send message
-	fRes := strings.Join(res, "\n")
-	_, _ = s.ChannelMessageSend(m.ChannelID, fRes)
+	_, _ = s.ChannelMessageSendEmbed(m.ChannelID, res)
 }
