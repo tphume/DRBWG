@@ -46,11 +46,13 @@ type DelArgs struct {
 }
 
 type GetPendingArgs struct {
-	Now time.Time
+	Start time.Time
+	End   time.Time
 }
 
 type StateArgs struct {
-	Data []Reminder
+	Start time.Time
+	End   time.Time
 }
 
 // Response definition for interface
