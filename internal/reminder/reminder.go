@@ -14,7 +14,7 @@ type Reminder struct {
 	Name      string
 }
 
-type Pending struct {
+type Pending interface {
 	PendingRepo
 	StateRepo
 }

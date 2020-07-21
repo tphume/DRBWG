@@ -159,6 +159,19 @@ func (p *Psql) Del(args *DelArgs) error {
 	return nil
 }
 
+// Repo implementation for Pending type
+type PsqlPending struct {
+	Pool *pgxpool.Pool
+}
+
+func (p PsqlPending) GetPending(args GetPendingArgs) (GetPendingRes, error) {
+	panic("implement me")
+}
+
+func (p PsqlPending) UpdateState(args StateArgs) error {
+	panic("implement me")
+}
+
 const (
 	insertQuery      = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
 	guildListQuery   = `SELECT id, time, name FROM reminders WHERE guild_id = $1`
