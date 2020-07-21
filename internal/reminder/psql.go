@@ -178,4 +178,7 @@ const (
 	channelListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND channel_id = $2`
 	updateQuery      = `UPDATE reminders SET time = $1 WHERE id = $2 AND guild_id = $3 RETURNING name`
 	deleteQuery      = `DELETE FROM reminders WHERE id = $1 AND guild_id = $2 RETURNING time, name`
+
+	pendingQuery = `SELECT id, guild_id, channel_id, name, time FROM reminders WHERE done = FALSE AND time BETWEEN $1 AND $2`
+	stateQuery   = `UPDATE reminders SET done = TRUE WHERE time BETWEEN $1 AND $2`
 )
