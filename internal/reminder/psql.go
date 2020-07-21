@@ -164,8 +164,39 @@ type PsqlPending struct {
 	Pool *pgxpool.Pool
 }
 
-func (p PsqlPending) GetPending(args GetPendingArgs) (GetPendingRes, error) {
-	panic("implement me")
+func (p PsqlPending) GetPending(args GetPendingArgs) (*GetPendingRes, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Release()
+
+	// Query by time
+	rows, err := conn.Query(ctx, pendingQuery, args.Now, args.Now.Add(time.Second*59))
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	// Iterate through results
+	res := &GetPendingRes{Data: []Reminder{}}
+	for rows.Next() {
+		var r Reminder
+
+		err = rows.Scan(&r.Id, &r.T, &r.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		res.Data = append(res.Data, r)
+	}
+
+	return res, nil
 }
 
 func (p PsqlPending) UpdateState(args StateArgs) error {

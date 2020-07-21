@@ -92,7 +92,7 @@ type DelRepo interface {
 }
 
 type PendingRepo interface {
-	GetPending(args GetPendingArgs) (GetPendingRes, error)
+	GetPending(args GetPendingArgs) (*GetPendingRes, error)
 }
 
 type StateRepo interface {
