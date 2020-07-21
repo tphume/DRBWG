@@ -220,9 +220,9 @@ func (p PsqlPending) UpdateState(args StateArgs) error {
 
 const (
 	insertQuery      = `INSERT INTO reminders VALUES ($1, $2, $3, $4, $5)`
-	guildListQuery   = `SELECT id, time, name FROM reminders WHERE guild_id = $1`
-	channelListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND channel_id = $2`
-	updateQuery      = `UPDATE reminders SET time = $1 WHERE id = $2 AND guild_id = $3 RETURNING name`
+	guildListQuery   = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND done = FALSE`
+	channelListQuery = `SELECT id, time, name FROM reminders WHERE guild_id = $1 AND channel_id = $2 AND done = FALSE`
+	updateQuery      = `UPDATE reminders SET time = $1 WHERE id = $2 AND guild_id = $3 AND done = FALSE RETURNING name`
 	deleteQuery      = `DELETE FROM reminders WHERE id = $1 AND guild_id = $2 RETURNING time, name`
 
 	pendingQuery = `SELECT id, guild_id, channel_id, name, time FROM reminders WHERE done = FALSE AND time BETWEEN $1 AND $2`
