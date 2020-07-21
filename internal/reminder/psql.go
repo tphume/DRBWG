@@ -176,7 +176,7 @@ func (p PsqlPending) GetPending(args GetPendingArgs) (*GetPendingRes, error) {
 	defer conn.Release()
 
 	// Query by time
-	rows, err := conn.Query(ctx, pendingQuery, args.Now, args.Now.Add(time.Second*59))
+	rows, err := conn.Query(ctx, pendingQuery, args.Start, args.End)
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ func (p PsqlPending) GetPending(args GetPendingArgs) (*GetPendingRes, error) {
 	for rows.Next() {
 		var r Reminder
 
-		err = rows.Scan(&r.Id, &r.T, &r.Name)
+		err = rows.Scan(&r.Id, &r.GuildId, &r.ChannelId, &r.Name, &r.T)
 		if err != nil {
 			return nil, err
 		}
@@ -200,7 +200,22 @@ func (p PsqlPending) GetPending(args GetPendingArgs) (*GetPendingRes, error) {
 }
 
 func (p PsqlPending) UpdateState(args StateArgs) error {
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
+	defer cancel()
+
+	// Get psql connection from pool
+	conn, err := p.Pool.Acquire(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	// Update by reminder id and guild id
+	if _, err = conn.Exec(ctx, stateQuery, args.Start, args.End); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 const (
