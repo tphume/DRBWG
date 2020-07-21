@@ -1,6 +1,7 @@
 package notification
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/robfig/cron/v3"
 	"github.com/tphume/DRBWG/internal/reminder"
@@ -43,6 +44,24 @@ func (p *Process) remind() {
 }
 
 // Send notification
-func (p *Process) send(r []reminder.Reminder) error {
-	panic("implement me")
+func (p *Process) send(reminders []reminder.Reminder) error {
+	for _, r := range reminders {
+		_, err := p.D.ChannelMessageSendEmbed(r.ChannelId, &discordgo.MessageEmbed{
+			URL:    reminder.URL,
+			Title:  fmt.Sprintf("REMINDER ALERT for %s :red_circle:", r.Name),
+			Color:  reminder.Color,
+			Footer: reminder.Footer,
+			Author: reminder.Author,
+			Fields: []*discordgo.MessageEmbedField{
+				{Name: "ID", Value: r.Id},
+				{Name: "Name", Value: r.Name},
+				{Name: "Timestamp", Value: r.T.Format("Mon Jan 2 15:04:05 MST 2006")},
+			},
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
