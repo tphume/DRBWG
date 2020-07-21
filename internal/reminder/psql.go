@@ -203,7 +203,6 @@ func (p PsqlPending) UpdateState(args StateArgs) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*12)
 	defer cancel()
 
-	// Get psql connection from pool
 	conn, err := p.Pool.Acquire(ctx)
 	if err != nil {
 		return err
@@ -226,5 +225,5 @@ const (
 	deleteQuery      = `DELETE FROM reminders WHERE id = $1 AND guild_id = $2 RETURNING time, name`
 
 	pendingQuery = `SELECT id, guild_id, channel_id, name, time FROM reminders WHERE done = FALSE AND time BETWEEN $1 AND $2`
-	stateQuery   = `UPDATE reminders SET done = TRUE WHERE time BETWEEN $1 AND $2`
+	stateQuery   = `UPDATE reminders SET done = 'true' WHERE time BETWEEN $1 AND $2`
 )

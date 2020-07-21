@@ -20,15 +20,15 @@ func (p *Process) AddToCron(c *cron.Cron) (cron.EntryID, error) {
 
 // Job to be run every minute
 func (p *Process) remind() {
-	now := time.Now()
+	now := time.Now().UTC()
 	start := now.Truncate(time.Minute)
-	end := now.Round(time.Minute)
+	end := now.Round(time.Minute).Add(time.Second * 59)
 
 	// Get list of reminders
 	gpArgs := reminder.GetPendingArgs{Start: start, End: end}
 	gpRes, err := p.R.GetPending(gpArgs)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 
 	// Send reminders to discord channels
