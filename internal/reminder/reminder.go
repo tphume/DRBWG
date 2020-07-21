@@ -14,6 +14,11 @@ type Reminder struct {
 	Name      string
 }
 
+type Pending interface {
+	PendingRepo
+	StateRepo
+}
+
 // Argument definition for interface
 type SetArgs struct {
 	Reminder
@@ -40,12 +45,26 @@ type DelArgs struct {
 	Reminder
 }
 
+type GetPendingArgs struct {
+	Start time.Time
+	End   time.Time
+}
+
+type StateArgs struct {
+	Start time.Time
+	End   time.Time
+}
+
 // Response definition for interface
 type GuildListRes struct {
 	Data []Reminder
 }
 
 type ChannelListRes struct {
+	Data []Reminder
+}
+
+type GetPendingRes struct {
 	Data []Reminder
 }
 
@@ -72,6 +91,14 @@ type UpdateRepo interface {
 
 type DelRepo interface {
 	Del(args *DelArgs) error
+}
+
+type PendingRepo interface {
+	GetPending(args GetPendingArgs) (*GetPendingRes, error)
+}
+
+type StateRepo interface {
+	UpdateState(args StateArgs) error
 }
 
 // List of Errors
