@@ -7,14 +7,12 @@ import (
 )
 
 type Process struct {
-	d *discordgo.Session
-	c *cron.Cron
-	r reminder.Pending
+	D *discordgo.Session
+	R reminder.Pending
 }
 
-// Return new cron process with notification jobs attached
-func NewProcess(c *cron.Cron) {
-	panic("implement me")
+func (p *Process) AddToCron(c *cron.Cron) (cron.EntryID, error) {
+	return c.AddFunc("* * * * *", p.remind)
 }
 
 // Job to be run every minute
