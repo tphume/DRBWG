@@ -12,9 +12,22 @@ services:
     volumes:
       - "./volume/psql:/var/lib/postgresql/data"
 
+  notification:
+    build:
+      context: .
+      dockerfile: notification.Dockerfile
+    image: drbwg_notification
+    depends_on:
+      - psql
+    environment:
+      DRBWG_TOKEN: ${DRBWG_TOKEN}
+      PSQL_URI: postgresql://drbwg:drbwg-password@drbwg-psql-con:5432
+
   bot:
     build: .
     image: drbwg_bot
+    depends_on:
+      - psql
     environment:
       DRBWG_TOKEN: ${DRBWG_TOKEN}
       PSQL_URI: postgresql://drbwg:drbwg-password@drbwg-psql-con:5432
