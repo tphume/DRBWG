@@ -5,6 +5,9 @@ A discord bot built with the Go programming language. Allows user to set reminde
 ## Getting started
 The easiest way to get start the database, notification process and the bot is to use docker-compose. Simply run `docker-compose up` to build and start running the system.
 
+## Directories
+The `internal` directories contains the packages that makes up `DRBWG`. It follows the convention of having the package name match its directory name.Each command is separated into its own packages that implements an interface which is used by a bot router defined in package `bot`. The `reminder` package contains the interface definiton used by the bot package and also the metadata for the embed message. The `cmd` directories contains the individual entry point of each program. `cmd/bot` is the entry point to run the bot which accepts commands from the users. While `cmd/notification` starts a process which retrieves and send notfications to the user for their pending reminders.
+
 ## Commands
 The bot watches for messages prefixed with in the following format`drbwg [command] [...args]`. Below list all the valid commands.
 
